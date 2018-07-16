@@ -41,6 +41,7 @@ public:
 
   static Ptr CreateTactile(Context::Ptr context, NodeID id);
   static Ptr CreateForceTorque(Context::Ptr context, NodeID id);
+  static Ptr CreateThermistor(Context::Ptr context, NodeID id);
 
   static Ptr Create(Context::Ptr context, NodeID id, const Parameters& param)
   {

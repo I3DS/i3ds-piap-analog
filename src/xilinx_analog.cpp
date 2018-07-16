@@ -57,6 +57,25 @@ i3ds::XilinxAnalog::CreateForceTorque(Context::Ptr context, NodeID id)
   return std::make_shared<XilinxAnalog>(context, id, param);
 }
 
+i3ds::XilinxAnalog::Ptr
+i3ds::XilinxAnalog::CreateThermistor(Context::Ptr context, NodeID id)
+{
+  Parameters param;
+
+  param.series = 13;
+  param.bit_resolution = 12;
+  param.type = ADC_THERMISTOR;
+
+  for (int i = 0; i < param.series; i++)
+    {
+      param.scale.push_back(20.0 / 4095);
+      param.offset.push_back(0.0);
+    }
+
+  return std::make_shared<XilinxAnalog>(context, id, param);
+}
+
+
 i3ds::XilinxAnalog::XilinxAnalog(Context::Ptr context, NodeID node, const Parameters& param)
   : Analog(node, param.series),
     param_(param),

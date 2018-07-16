@@ -95,6 +95,10 @@ int main(int argc, char** argv)
     {
       analog = i3ds::XilinxAnalog::CreateForceTorque(context, node_id);
     }
+  else if (analog_type == "thermistor")
+    {
+      analog = i3ds::XilinxAnalog::CreateThermistor(context, node_id);
+    }
   else
     {
       BOOST_LOG_TRIVIAL(error) << "Invalid analog type: " << analog_type;
