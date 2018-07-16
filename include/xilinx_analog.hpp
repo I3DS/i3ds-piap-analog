@@ -17,6 +17,7 @@
 #include <i3ds/analog_sensor.hpp>
 
 #include <vector>
+#include "adc_driver.h"
 
 namespace i3ds
 {
@@ -29,8 +30,11 @@ public:
   {
     int series;
     int bit_resolution;
+    
     std::vector<float> scale;
     std::vector<float> offset;
+
+    ADC_INTERFACE_ID type = ADC_INTERFACE_INVALID;
   };
 
   typedef std::shared_ptr<XilinxAnalog> Ptr;

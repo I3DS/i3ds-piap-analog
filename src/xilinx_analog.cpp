@@ -20,6 +20,7 @@ i3ds::XilinxAnalog::CreateTactile(Context::Ptr context, NodeID id)
 
   param.series = 3;
   param.bit_resolution = 12;
+  param.type = ADC_TACTILE;
 
   for (int i = 0; i < param.series; i++)
     {
@@ -37,6 +38,7 @@ i3ds::XilinxAnalog::CreateForceTorque(Context::Ptr context, NodeID id)
 
   param.series = 6;
   param.bit_resolution = 12;
+  param.type = ADC_TORQUE;
 
   // Force is the three first
   for (int i = 0; i < param.series / 2; i++)
@@ -152,8 +154,7 @@ i3ds::XilinxAnalog::read_adc()
 
   for (int i = 0; i < param_.series; i++)
     {
-      // TODO: Read value from ADC registry.
-      const uint16_t adc = 0;
+      const uint16_t adc = static_cast<uint16_t>(adc_read_value(param_.type, i));
 
       // Apply scale and offset to discrete value.
       value[i] = param_.scale[i] * adc + param_.offset[i];
