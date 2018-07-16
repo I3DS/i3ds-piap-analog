@@ -68,6 +68,7 @@ i3ds::XilinxAnalog::CreateThermistor(Context::Ptr context, NodeID id)
 
   for (int i = 0; i < param.series; i++)
     {
+      // TODO: Set correct scale and offset for thermistors.
       param.scale.push_back(20.0 / 4095);
       param.offset.push_back(0.0);
     }
@@ -173,7 +174,7 @@ i3ds::XilinxAnalog::read_adc()
 
   for (int i = 0; i < param_.series; i++)
     {
-      const uint16_t adc = static_cast<uint16_t>(adc_read_value(param_.type, i));
+      const uint32_t adc = adc_read_value(param_.type, i);
 
       // Apply scale and offset to discrete value.
       value[i] = param_.scale[i] * adc + param_.offset[i];
