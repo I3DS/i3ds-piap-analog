@@ -53,9 +53,8 @@ int main(int argc, char** argv)
   ("help,h", "Produce this message")
   ("node,n", po::value<unsigned int>(&node_id)->default_value(10), "Node ID of camera")
   ("type,t", po::value<std::string>(&analog_type), "Type of sensor (either \"tactile\" or \"ft\")")
-  ("verbose,v", "Print verbose output")
+  ("verbose,v", "Print verbose output (multiple for more output)")
   ("quiet,q", "Quiet ouput")
-  ("print", "Print the camera configuration")
   ;
 
   po::variables_map vm;
@@ -71,10 +70,15 @@ int main(int argc, char** argv)
     {
       logging::core::get()->set_filter(logging::trivial::severity >= logging::trivial::warning);
     }
-  else if (!vm.count("verbose"))
-    {
-      logging::core::get()->set_filter(logging::trivial::severity >= logging::trivial::info);
-    }
+  else if (vm.count("verbose")) {
+    logging::core::get()->set_filter(logging::trivial::severity >= logging::trivial::trace);
+    BOOST_LOG_TRIVIAL(info) << "Outputting TRACE severity.";
+    BOOST_LOG_TRIVIAL(trace) << "  [OK]";
+  } else {
+    logging::core::get()->set_filter(logging::trivial::severity >= logging::trivial::info);
+    BOOST_LOG_TRIVIAL(info) << "Outputting INFO severity.";
+    BOOST_LOG_TRIVIAL(info) << "  [OK]";
+  }
 
   po::notify(vm);
 
