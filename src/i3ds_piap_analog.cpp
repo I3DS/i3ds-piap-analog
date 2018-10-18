@@ -54,7 +54,7 @@ int main(int argc, char** argv)
   ("node,n", po::value<unsigned int>(&node_id)->default_value(10), "Node ID of camera")
   ("type,t", po::value<std::string>(&analog_type), "Type of sensor (either \"tactile\" or \"ft\")")
   ("verbose,v", "Print verbose output")
-  ("quite,q", "Quiet ouput")
+  ("quiet,q", "Quiet ouput")
   ("print", "Print the camera configuration")
   ;
 
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
       return -1;
     }
 
-  if (vm.count("quite"))
+  if (vm.count("quiet"))
     {
       logging::core::get()->set_filter(logging::trivial::severity >= logging::trivial::warning);
     }
