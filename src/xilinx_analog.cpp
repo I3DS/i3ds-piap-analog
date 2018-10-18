@@ -85,6 +85,10 @@ i3ds::XilinxAnalog::XilinxAnalog(Context::Ptr context, NodeID node, const Parame
     batches_(0)
 
 {
+  if (adc_initialize() != 0) {
+    BOOST_LOG_TRIVIAL(error) << "Could not initialize ADC!";
+  }
+
   BOOST_LOG_TRIVIAL(info) << "Create Xilinx analog sensor with NodeID: " << node;
 
   MeasurementTopic::Codec::Initialize(frame_);
