@@ -44,14 +44,14 @@ i3ds::XilinxAnalog::CreateForceTorque(Context::Ptr context, NodeID id)
   for (int i = 0; i < param.series / 2; i++)
     {
       param.offset.push_back(-150.0);
-      param.scale.push_back(300.0 / 4095);
+      param.scale.push_back(2 * 300.0 / 4095);
     }
 
   // Torque is the three last
   for (int i = 0; i < param.series / 2; i++)
     {
       param.offset.push_back(-10.0);
-      param.scale.push_back(20.0 / 4095);
+      param.scale.push_back(2 * 20.0 / 4095);
     }
 
   return std::make_shared<XilinxAnalog>(context, id, param);
@@ -69,7 +69,7 @@ i3ds::XilinxAnalog::CreateThermistor(Context::Ptr context, NodeID id)
   for (int i = 0; i < param.series; i++)
     {
       // TODO: Set correct scale and offset for thermistors.
-      param.scale.push_back(20.0 / 4095);
+      param.scale.push_back(2 * 20.0 / 4095);
       param.offset.push_back(0.0);
     }
 
@@ -177,13 +177,16 @@ i3ds::XilinxAnalog::read_adc()
 {
   std::vector<float> value(param_.series);
 
+  BOOST_LOG_TRIVIAL(trace) << "Reading values raw/converted:";
   for (int i = 0; i < param_.series; i++)
     {
       const uint32_t adc = adc_read_value(param_.type, i);
 
       // Apply scale and offset to discrete value.
       value[i] = param_.scale[i] * adc + param_.offset[i];
+      BOOST_LOG_TRIVIAL(trace) << " " << adc << " -> " << value[i];
     }
+
 
   return value;
 }
